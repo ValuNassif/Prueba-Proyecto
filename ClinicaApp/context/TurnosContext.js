@@ -7,7 +7,7 @@ export const TurnosProvider = ({ children }) => {
   const [proximos, setProximos] = useState([])
   const [cancelados, setCancelados] = useState([])
 
-  const isTurnoVencido = (fecha) => {
+  const esTurnoVencido = (fecha) => {
     const ahora = new Date()
     const fechaTurno = new Date(fecha)
     return fechaTurno < ahora // turno vencido si la fecha es anterior a la actual
@@ -20,8 +20,8 @@ export const TurnosProvider = ({ children }) => {
         const data = await response.json()
 
         // clasifico por vencido
-        const prox = data.filter(turno => !isTurnoVencido(turno.fecha)) // turnos próximos
-        const canc = data.filter(turno => isTurnoVencido(turno.fecha)) // turnos cancelados o vencidos
+        const prox = data.filter(turno => !esTurnoVencido(turno.fecha)) // turnos próximos
+        const canc = data.filter(turno => esTurnoVencido(turno.fecha)) // turnos cancelados o vencidos
 
         // ordeno por fecha
         const ordenadosProximos = prox.sort((a, b) => new Date(a.fecha) - new Date(b.fecha))
@@ -47,7 +47,7 @@ export const TurnosProvider = ({ children }) => {
     }
 
     setTurnos(updatedTurnos);
-    setProximos(updatedTurnos.filter(turno => !isTurnoVencido(turno.fecha)))
+    setProximos(updatedTurnos.filter(turno => !esTurnoVencido(turno.fecha)))
   }
 
   return (
