@@ -35,10 +35,11 @@ import { TurnosContext } from '../context/TurnosContext';
         <Text style={styles.name}>Home Screen</Text>
   
         {user.admin ? (
+          // ------Admin------
           <>
             <Button
               title="Carga Especialista"
-              onPress={() => router.push('/(cargaEspecialista)')}
+              onPress={() => router.push('/cargaEspecialista')}
               style={styles.adminButton}
             />
             <FlatList 
@@ -56,18 +57,19 @@ import { TurnosContext } from '../context/TurnosContext';
             />
           </>
         ):(
+          // ------Usuario normal------
           <>
         <Text style={styles.name}>Home Screen</Text>
         <Button
           title="Nuevo Turno"
-          onPress={() => router.push('/nuevo_turno')}
+          onPress={() => router.push('/nuevoTurno')}
         />
         <Button
           title="Mis Turnos"
           onPress={() => router.push('/(misTurnos)')}
         />
-        {/* <FlatList
-          data={turnos}
+        {<FlatList
+          data={proximos}
           keyExtractor={(item) => item.id}
           horizontal
           showsHorizontalScrollIndicator={false}
@@ -86,7 +88,7 @@ import { TurnosContext } from '../context/TurnosContext';
               </View>
             </View>
           )}
-        /> */}
+        /> }
       </>
     )}
       </View>

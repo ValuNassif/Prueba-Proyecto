@@ -1,12 +1,9 @@
-import React, { createContext, useState, useEffect, useContext } from 'react';
-import { EspecialistaContext } from './EspecialistaContext';
+import React, { createContext, useState, useEffect} from 'react';
 
 export const TurnosContext = createContext();
 
 export const TurnosProvider = ({ children }) => {
   
-  const {especialistas} = useContext(EspecialistaContext)
-
 
   const [turnos, setTurnos] = useState([])
   const [proximos, setProximos] = useState([])
@@ -54,12 +51,6 @@ export const TurnosProvider = ({ children }) => {
     setTurnos(updatedTurnos);
     setProximos(updatedTurnos.filter(turno => !isTurnoVencido(turno.fecha)))
   }
-
-
-  //-------------Nuevo turno-------------//
-
-  const [especialidadSeleccionada, setEspecialidadSeleccionada] = useState(null)
-
 
   return (
     <TurnosContext.Provider value={{ turnos, proximos, cancelados, eliminarTurno }}>
