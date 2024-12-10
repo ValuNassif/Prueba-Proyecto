@@ -1,5 +1,7 @@
 import React, { useContext, useEffect, useState } from 'react';
-import { View, Text, TextInput, Button, Alert, FlatList, TouchableOpacity } from 'react-native';
+import { View, Text, TextInput, Button, Alert, FlatList, TouchableOpacity, StyleSheet, Object, Day, String, Set } from 'react-native';
+import Icon from 'react-native-vector-icons/Ionicons';
+import { Calendar } from 'react-native-calendars';
 import { EspecialistaContext } from '../context/EspecialistaContext';
 import { AuthContext } from '../context/AuthContext';
 
@@ -29,12 +31,15 @@ export default function NuevoTurnoScreen() {
       };
 
 
-      const especialidadesUnicas = [... new Set(especialistas.map(esp => esp.especialidad))]
-      const especialidadesFormateadas = especialidadesUnicas.map((especialidad, index) => ({
-        id: String(index + 1),
-        especialidad : especialidad
-      }))
-      setEspecialidadesDisponibles(especialidadesFormateadas)
+      useEffect(() => {
+        const especialidadesUnicas = [... new Set(especialistas.map(esp => esp.especialidad))]
+        const especialidadesFormateadas = especialidadesUnicas.map((especialidad, index) => ({
+          id: String(index + 1),
+          especialidad : especialidad
+        }))
+        setEspecialidadesDisponibles(especialidadesFormateadas)
+    
+    }, [especialistas])
 
 
 
@@ -181,7 +186,7 @@ export default function NuevoTurnoScreen() {
     return(
         <View style={styles.contenedor}>
         <View style={styles.cabecera}>
-          <Icono name="chevron-back-outline" size={24} color="#000" onPress={atras} />
+          <Icon name="chevron-back-outline" size={24} color="#000" onPress={atras} />
           <Text style={styles.titulo}>{titulo}</Text>
         </View>
   

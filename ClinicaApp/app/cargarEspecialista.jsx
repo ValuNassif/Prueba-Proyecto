@@ -1,7 +1,7 @@
 import { useContext, useState } from "react";
-import { EspecialistaContext } from "../../context/EspecialistaContext";
+import { EspecialistaContext } from "../context/EspecialistaContext";
 import { useRouter } from "expo-router";
-import { Button, Text, TextInput, View } from "react-native";
+import { Button, Text, TextInput, View, StyleSheet } from "react-native";
 
 export default function cargarEspecialistaScreen(){
 

@@ -23,7 +23,7 @@ export default function Login() {
 
       if(user){
         alert('Login Conseguido')
-        router.push('/misTurnos')
+        router.push('/nuevoTurno')
       }else{
         alert('Login Fallido')
       }
