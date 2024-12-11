@@ -2,7 +2,7 @@ import { useColorScheme } from "react-native";
 import { Stack } from 'expo-router';
 import { TurnosProvider } from '../context/TurnosContext';
 import { EspecialistaProvider } from "../context/EspecialistaContext";
-//import { AuthProvider } from '../context/AuthContext';
+import { AuthProvider } from '../context/AuthContext';
 
 export default function RootLayout(){
     const colorScheme = useColorScheme();

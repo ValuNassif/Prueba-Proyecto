@@ -1,5 +1,5 @@
 import React, { useContext, useEffect, useState } from 'react';
-import { View, Text, TextInput, Button, Alert, FlatList, TouchableOpacity } from 'react-native';
+import { View, Text, TextInput, Button, Alert, FlatList, TouchableOpacity, StyleSheet, Icono, Object, Date, Set} from 'react-native';
 import { EspecialistaContext } from '../context/EspecialistaContext';
 import { AuthContext } from '../context/AuthContext';
 
@@ -29,16 +29,21 @@ export default function NuevoTurnoScreen() {
       };
 
 
-      const especialidadesUnicas = [... new Set(especialistas.map(esp => esp.especialidad))]
-      const especialidadesFormateadas = especialidadesUnicas.map((especialidad, index) => ({
-        id: String(index + 1),
-        especialidad : especialidad
-      }))
-      setEspecialidadesDisponibles(especialidadesFormateadas)
+      useEffect(() => {
+        
+          const especialidadesUnicas = [... new Set(especialistas.map(esp => esp.especialidad))]
+          const especialidadesFormateadas = especialidadesUnicas.map((especialidad, index) => ({
+            id: String(index + 1),
+            especialidad : especialidad
+          }))
+          setEspecialidadesDisponibles(especialidadesFormateadas)
+      
+      }, [especialistas])
+      
 
 
 
-  const generarDiasHabilitados = (diasAtencion) => {
+  const generarDiasHabilitados = (diasAtencion, turnos) => {
     const fechasHabilitadas = {};
     const hoy = new Date();
     
@@ -51,8 +56,10 @@ export default function NuevoTurnoScreen() {
       const esDiaHabilitado = diasAtencion.some(dia => 
         nombreDiaANumero[dia] === diaSemana
       );
+
+      const turnoEnFecha = turnos.filter(turno => turno.fecha === fechaStr);
   
-      if (esDiaHabilitado) {
+      if (esDiaHabilitado && turnosEnFecha.length < 5) {
         fechasHabilitadas[fechaStr] = {
           selected: false,
           marked: true,
@@ -114,7 +121,7 @@ export default function NuevoTurnoScreen() {
     setDoctorSeleccionado(doctor);
     const doctorInfo = especialistas.find(esp => esp.id === doctor.id);
     if (doctorInfo && doctorInfo.diasAtencion) {
-      const diasHabilitados = generarDiasHabilitados(doctorInfo.diasAtencion);
+      const diasHabilitados = generarDiasHabilitados(doctorInfo.diasAtencion, doctorInfo.turnos || []);
       setDiasHabilitados(diasHabilitados);
     }
     setMostrarCalendario(true);
@@ -163,6 +170,16 @@ export default function NuevoTurnoScreen() {
             },
             body: JSON.stringify({
                 turnos: [...user.turnos, turnoCreado.id]
+            })
+        })
+
+        const responseDoctor = await fetch(`https://672a9869976a834dd023dd5f.mockapi.io/Especialistas`, {
+            method: 'PATCH',
+            headers: {
+                'Content-Type' : 'application/json'
+            },
+            body: JSON.stringify({
+                turnos: [...(doctorSeleccionado.turnos || []), {id : turnoCreado.id, fecha: turnoCreado.fecha}]
             })
         })
      
@@ -265,7 +282,7 @@ export default function NuevoTurnoScreen() {
             )}
             <TouchableOpacity
             style={styles.boton}
-            onPress={confirmarTurno}
+            onPress={confirmarTurno()}
             >
                 <Text style={styles.textoBoton}>Confirmar Turno</Text>
             </TouchableOpacity>
