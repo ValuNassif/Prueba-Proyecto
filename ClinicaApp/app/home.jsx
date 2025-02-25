@@ -5,6 +5,7 @@ import { AuthContext } from '../context/AuthContext';
 import { EspecialistaContext } from '../context/EspecialistaContext';
 import { TurnosContext } from '../context/TurnosContext';
 
+
   
   export default function HomeTabScreen() {
 
@@ -14,7 +15,6 @@ import { TurnosContext } from '../context/TurnosContext';
     const {turnos, proximos, cancelados} = useContext(TurnosContext)
     const router = useRouter();
     
-    console.log('user:', user);
   
     useEffect(() => {
       const fetchUsers = async () => {
@@ -29,12 +29,17 @@ import { TurnosContext } from '../context/TurnosContext';
   
       fetchUsers();
     }, []);
+
+    if (user === null) {
+      return <Text>Cargando...</Text>;  
+    }
   
+    console.log('usuario home cargado:', user)
     return (
       <View style={styles.container}>
         <Text style={styles.name}>Home Screen</Text>
   
-        {user.admin ? (
+        {user?.admin ? (
           // ------Admin------
           <>
             <Button
@@ -66,29 +71,36 @@ import { TurnosContext } from '../context/TurnosContext';
         />
         <Button
           title="Mis Turnos"
-          onPress={() => router.push('/(misTurnos)')}
+          onPress={() => router.push('/misTurnos')}
         />
         {<FlatList
-          data={proximos}
-          keyExtractor={(item) => item.id}
-          horizontal
-          showsHorizontalScrollIndicator={false}
-          renderItem={({ item }) => (
-            <View style={styles.userContainer}>
-              <Image
-                source={{ uri: item.picture.large }}
-                style={styles.image}
-              />
-              <View style={styles.infoContainer}>
-                <Text style={styles.name}>Fecha: {item.fecha}</Text>
-                <Text style={styles.detalle}>Hora: {item.hora}</Text>
-                <Text style={styles.detalle}>
-                  Médico: {especialistas && especialistas.find((especialista) => especialista.id === item.idMedico)?.nombre || 'No encontrado'}
-                </Text>
+            data={proximos}
+            keyExtractor={(item) => item.id}
+            horizontal
+            showsHorizontalScrollIndicator={false}
+            renderItem={({ item }) => (
+              <View style={styles.userContainer}>
+                {item.picture ? (
+                  <Image
+                    source={{ uri: item.picture.large }}
+                    style={styles.image}
+                  />
+                ) : (
+                  <View style={styles.image} />  
+                )}
+                <View style={styles.infoContainer}>
+                  <Text style={styles.name}>Fecha: {item.fecha}</Text>
+                  <Text style={styles.detalle}>Hora: {item.hora}</Text>
+                  <Text style={styles.detalle}>
+                    Médico:{' '}
+                    {especialistas &&
+                      especialistas.find((especialista) => especialista.id === item.idMedico)?.nombre ||
+                      'No encontrado'}
+                  </Text>
+                </View>
               </View>
-            </View>
-          )}
-        /> }
+            )}
+          /> }
       </>
     )}
       </View>

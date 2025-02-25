@@ -57,7 +57,7 @@ export default function NuevoTurnoScreen() {
         nombreDiaANumero[dia] === diaSemana
       );
 
-      const turnoEnFecha = turnos.filter(turno => turno.fecha === fechaStr);
+      const turnosEnFecha = turnos.filter(turno => turno.fecha === fechaStr);
   
       if (esDiaHabilitado && turnosEnFecha.length < 5) {
         fechasHabilitadas[fechaStr] = {
