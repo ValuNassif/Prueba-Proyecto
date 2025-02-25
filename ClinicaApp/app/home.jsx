@@ -1,8 +1,8 @@
 import {  View, Text, Image, StyleSheet, FlatList, Button } from 'react-native';
   import { useRouter } from 'expo-router';
   import { useEffect, useState, useContext } from 'react';
-import { AuthContext } from '../../context/AuthContext';
-import { EspecialistaContext } from '../../context/EspecialistaContext';
+import { AuthContext } from '../context/AuthContext';
+import { EspecialistaContext } from '../context/EspecialistaContext';
 import { TurnosContext } from '../context/TurnosContext';
 
   
