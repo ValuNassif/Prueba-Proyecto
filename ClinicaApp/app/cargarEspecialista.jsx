@@ -1,5 +1,5 @@
 import { useContext, useState } from "react";
-import { EspecialistaContext } from "../../context/EspecialistaContext";
+import { EspecialistaContext } from "../context/EspecialistaContext";
 import { useRouter } from "expo-router";
 import { Button, StyleSheet, Text, TextInput, View } from "react-native";
 
