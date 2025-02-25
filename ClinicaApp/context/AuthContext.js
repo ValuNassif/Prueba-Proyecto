@@ -7,7 +7,7 @@ export const AuthProvider = ({children}) => {
 
 
   const [ status, setStatus] = useState('checking')
-  const [ user, setUser ] = useState(null)
+  const [ user, setUser ] = useState({})
 
   useEffect(() => {
 
